@@ -1,0 +1,23 @@
+{
+    "name": "siteavenger/cakephp-avgeo",
+    "description": "AvGeo plugin for CakePHP 3",
+    "type": "cakephp-plugin",
+    "require": {
+        "php": ">=5.5.9",
+        "cakephp/cakephp": "~3.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "AvGeo\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "AvGeo\\Test\\": "tests",
+            "Cake\\Test\\": "./vendor/cakephp/cakephp/tests"
+        }
+    }
+}
