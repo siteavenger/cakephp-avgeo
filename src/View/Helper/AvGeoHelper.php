@@ -291,9 +291,9 @@ class AvGeoHelper extends Helper {
 	];
 	
 	/**
-	 * List of states, data from https://gist.github.com/maxrice/2776900
+	 * List of Canadian Provinces
 	 *
-	 * @var unknown $_stateList
+	 * @var unknown $_provinceList
 	 */
 	protected $_provinceList = [ 
 			'AB' => [ 
@@ -339,5 +339,42 @@ class AvGeoHelper extends Helper {
 	 */
 	public function initialize(array $config) {
 		parent::initialize ( $config );
+	}
+	
+	/**
+	 * Returns a list of state suitable for select/dropdowns
+	 * Use in views, like so:
+	 * echo $this->Form->input('state', ['type' => 'select', 'options' => $this->AvGeo->listStates(), 'empty' => true]);
+	 * @param array $options
+	 *     possible replacements: {{abbr}} {{name}} {{lat}} {{lng}}
+	 *     keyFormat - specify format for key 
+	 *     valueFormat - what user will see (in select list)
+	 * @return mixed[]
+	 */
+	public function listStates(array $options = []) {
+	    $default_options = [
+	        'keyFormat' => '{{abbr}}',
+	        'valueFormat' => '{{name}} ({{abbr}})',
+	    ];
+	    $options = Hash::merge($default_options, $options);
+	    
+	    $list = [];
+	    foreach($this->_stateList as $abbr => $state) {
+	        $key = str_ireplace('{{abbr}}', $abbr, $options['keyFormat']);
+	        $value = str_ireplace('{{abbr}}', $abbr, $options['valueFormat']);
+	        
+	        $key = str_ireplace('{{name}}', $state['name'], $key);
+	        $value = str_ireplace('{{name}}', $state['name'], $value);
+	        
+	        $key = str_ireplace('{{lat}}', $state['lat'], $key);
+	        $value = str_ireplace('{{lat}}', $state['lat'], $value);
+	        
+	        $key = str_ireplace('{{lng}}', $state['lng'], $key);
+	        $value = str_ireplace('{{lng}}', $state['lng'], $value);
+	        
+	        $list[$key] = $value;
+	    }
+	    
+	    return $list;
 	}
 }
