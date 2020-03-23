@@ -353,6 +353,7 @@ class AvGeoHelper extends Helper {
 	 */
 	public function listStates(array $options = []) {
 	    $default_options = [
+	        'placeholder' => false,
 	        'keyFormat' => '{{abbr}}',
 	        'valueFormat' => '{{name}} ({{abbr}})',
 	    ];
@@ -373,6 +374,18 @@ class AvGeoHelper extends Helper {
 	        $value = str_ireplace('{{lng}}', $state['lng'], $value);
 	        
 	        $list[$key] = $value;
+	        
+	    }
+	    
+	    if($options['placeholder']) {
+	        // try to "fake" a placeholder
+	        $placeholder = $options['placeholder'];
+	        if($placeholder === true) {
+	            $placeholder = 'Choose';
+	        }
+	        
+	        array_unshift($list, ['text' => $placeholder, 'value' => '', 'disabled' => 'disabled', 'selected' => 'selected', 'hidden' => 'hidden']);
+	       // <option value="" disabled selected>Select your option</option>
 	    }
 	    
 	    return $list;
